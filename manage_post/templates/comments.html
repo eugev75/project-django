@@ -1,0 +1,19 @@
+<!-- Cargar archivos estáticos -->
+{% load static %}
+
+<!-- Bloque css -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/comments.css' %}">
+{% endblock css%}
+
+<div class="comments-content">
+    <!-- Listar los comentarios -->
+    {% for comment in article.rating_set.all %}
+    <div class="comments-body">
+        <span class="comment-head">{{ comment.user_id.full_name }} &nbsp; &nbsp; {{ comment.value }} </span>
+        <p class="comment-description line">{{ comment.description }}</p>
+        <span class="comment-date"><b>Realizado: </b>{{ comment.created }}</span>
+    </div>
+    <hr>
+    {% endfor %}
+</div>

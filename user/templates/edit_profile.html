@@ -1,0 +1,43 @@
+<!-- Heredar de base -->
+{% extends 'base.html' %}
+
+<!-- Cargar archivos estáticos -->
+{% load static %}
+
+<!-- Bloque css -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style_user.css' %}">
+{% endblock css %}
+
+<!-- Bloque título -->
+{% block title %} Editar Perfil {% endblock title %}
+
+<!-- Bloque contenido -->
+{% block content %}
+
+<hr>
+<div class="form-content">
+    <form method="POST" enctype="multipart/form-data" class="form-general edit-profile">
+        <h2>Editar Perfil</h2>
+        <!-- Agregar token -->
+        {% csrf_token %}
+        <ul>
+            <!-- Obtener formularios  -->
+            {{ user_form.as_ul }}
+            {{ profile_form.as_ul }}
+            <li>
+                <label for="id_password">Contraseña: </label>
+                <!-- Redirigir a cambiar contraseña -->
+                <a href="{% url 'change_password' %}" class="change-password">Clic aquí para cambiar la contraseña</a>
+            </li>
+        </ul>
+        <!-- Asignar valor al input -->
+        <input type="submit" value="Editar Perfil" class="btn-submit">
+    </form>
+    <!-- Desactivar cuenta-->
+    <div class="form-content form-general edit-profile">
+        <h2 class="alert-danger">Zona de peligro</h2>
+        <a type="submit" class="btn-submit deactive" href="{% url 'delete_user' %}">Eliminar cuenta</a>
+    </div>
+</div>
+{% endblock content %}

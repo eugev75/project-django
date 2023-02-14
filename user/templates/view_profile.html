@@ -1,0 +1,70 @@
+<!-- Heredar de la plantilla base -->
+{% extends 'base.html' %}
+
+<!-- Cargar archivos estáticos -->
+{% load static %}
+
+<!-- Bloque css -->
+{% block css %}
+<link href="{% static 'css/style_user.css' %}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{% static 'css/article_category.css' %}">
+{% endblock css %}
+
+{% block title %} Eugenia {% endblock title %}
+
+<!-- Bloque de contenido -->
+{% block content %}
+<div class="description-profile">
+    <div class="image-profile">
+        <!-- Imagen del perfil del usuario -->
+        <img src="{{ request.user.profile.photo.url }}" alt="">
+    </div>
+    <div class="body-description-profile">
+        {{ request.user.profile.full_name }}
+        {{ request.user.profile.profession }}
+        {{ request.user.profile.about }}
+        <p>Nombre Completo: Jose</p>
+        <p>Profesion: Ingeniero de sistemas </p>
+        <p>Sobre mi: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <div class="extra">
+            <!-- Enlaces de las redes sociales -->
+            <a href="{{ request.user.profile.facebook }}" target="_blank" class="social">Facebook</a>
+            <a href="{{ request.user.profile.twitter }}" target="_blank" class="social">Twitter</a>
+            <a href="{{ request.user.profile.linkedin }}" target="_blank" class="social">Linkedin</a>
+        </div>
+    </div>
+</div>
+<hr>
+
+<!-- Mostrar las publicaciones de los usuarios -->
+<!-- Inicio de condición de artículos -->
+<div class="text-primary">
+    {% if posts %} //Condición
+    <h2>PUBLICACIONES</h2>
+</div>
+{% endif %}
+<div class="article-container">
+    <!-- Recorrer los artículos -->
+    <article class="article">
+        {% for article in posts %} //Instrucciones
+        <!-- Imagen del artículo -->
+        <img src="{{ article.image.url }}" alt="" class="img">
+        <div class="card-body">
+            <!-- Título del artículo -->
+            <a href="{% url 'post' article.slug %}">
+                <h2 class="title">{{ article.title|truncatewords:"11" }}</h2>
+            </a>
+            <p class="introduction">{{ article.introduction|truncatewords:"20" }}</p>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% if user.profile %}
+{% else %}
+{% if request.user == user %}
+<h2 class="alert-session">Usted no tiene ningún perfil, <a href="{% url 'edit_user' %}">Clic aquí</a> para crear uno nuevo</h2>
+{% else %}
+<h2>El usuario no ha creado un perfil</h2>
+{% endif %}
+{% endif %}
+{% endblock content %}

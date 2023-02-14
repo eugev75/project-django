@@ -1,0 +1,58 @@
+<!-- Heredar de base -->
+{% extends 'base.html' %}
+
+<!-- Cargar archivos estáticos -->
+{% load static %}
+
+<!-- Bloque css -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/article_detail.css' %}">
+{% endblock css %}
+
+<!-- Bloque título -->
+{% block title %} Post {% endblock title %}
+
+<!-- Bloque contenido -->
+{% block content %}
+
+<div class="content-post">
+    <div class="post-title line">
+        <h2>{{ article.title }}</h2>
+    </div>
+    <div class="post-introduction line">
+        <p{{ article.introduction }}</p>
+    </div>
+    <div class="post-author line">
+        <!-- Imagen del autor del artículo -->
+        {% if article.user_id.profile %}
+        <img src="{{ article.user_id.profile_photo.url }}" class="img-author" alt="Autor Post">
+        {% else %}
+        <img src="{% static 'image/Default/default-user.png' %}" class="img-author" alt="Autor Post">
+        {% endif %}
+        <!-- Redirigir al perfil del autor -->
+        <span>Autor: <a href="#">{{ article.user_id.full_name }}</a></span>
+    </div>
+    <hr>
+    <div class="post-image">
+        <!-- Imagen del artículo -->
+        <img src="{{ article.image.url }}" alt="imagen" class="post-image-img">
+    </div>
+    <div class="post-body line">
+        <p>{{ article.body|safe }}</p>
+    </div>
+    <hr>
+</div>
+
+<!-- Comentarios -->
+<h2 class="text-primary">Comentarios:</h2>
+
+<!-- Incluir agregar comentarios -->
+{% if request.user.is_authenticated %}
+{% include 'add_comment.html' %}
+{% else %}
+<p class="alert-post">Para comentar debe iniciar sesión</p>
+{% endif %}
+
+<!-- Incluir visualizar comentarios -->
+{% include 'comments.html' %}
+{% endblock content %}

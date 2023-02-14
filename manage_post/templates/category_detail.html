@@ -1,0 +1,41 @@
+<!-- Heredar de base -->
+{% extends 'base.html' %}
+
+<!-- Cargar archivos estáticos -->
+{% load static %}
+
+<!-- Bloque css -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/article_category.css' %}">
+{% endblock css %}
+
+<!-- Bloque título -->
+{% block title %} {{ category.name }} {% endblock title %}
+
+<!-- Bloque contenido -->
+{% block content %}
+
+<!-- Navbar category -->
+{% include 'navbar_category.html' %}
+
+<div class="text-primary">
+    <h2>{{ category.name|upper }}</h2>
+</div>
+
+<div class="article-container">
+    <!-- Listar artículos -->
+    {% for article in articles %}
+    <article class="article">
+        <!-- Imagen del artículo -->
+        <img src="{{ article.image.url }}" alt="" class="img">
+        <div class="card-body">
+            <!-- Identificador del artículo -->
+            <a href="{% url 'post' article.slug %}">
+                <h2 class="title">{{ article.title|truncatewords:13 }}</h2>
+            </a>
+            <p class="introduction">{{ article.introduction|truncatewords:25 }}</p>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% endblock content %}

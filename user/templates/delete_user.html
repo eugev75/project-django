@@ -1,0 +1,28 @@
+<!-- Heredar de base -->
+{% extends 'base.html' %}
+
+<!-- Cargar archivos estáticos -->
+{% load static %}
+
+<!-- Bloque css -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style_user.css' %}">
+{% endblock css %}
+
+<!-- Bloque título -->
+{% block title %} Eliminar cuenta {% endblock title %}
+
+<!-- Bloque contenido -->
+{% block content %}
+
+<div class="form-content">
+    <form method="post" class="form-general">
+        {% csrf_token %}
+        <!-- Alerta de eliminación de cuenta -->
+        <h3 class="alert-deactivate-confirm">¿En realidad deseas eliminar la cuenta?</h3>
+        <!-- Botón de confirmar y regresar -->
+        <input type="submit" value="Confirmar" class="btn-submit deactive">
+        <a type="submit" class="btn-submit back" href="{% url 'edit_user' %}">Regresar</a>
+    </form>
+</div>
+{% endblock content %}

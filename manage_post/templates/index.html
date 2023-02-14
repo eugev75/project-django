@@ -1,0 +1,48 @@
+<!-- Heredar de base -->
+{% extends 'base.html' %}
+
+<!-- Cargar archivos estáticos -->
+{% load static %}
+
+<!-- Bloque css -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/article_category.css' %}">
+{% endblock css %}
+
+<!-- Bloque título -->
+{% block title %} ABC BLOG {% endblock title %}
+
+<!-- Bloque contenido -->
+{% block content %}
+
+<!-- Navbar category -->
+{% include 'navbar_category.html' %}
+
+<div class="slogan">
+    <div class="column1">
+        <h2>ABCBlog</h2>
+    </div>
+    <div class="column2">
+        <p>Hemos ayudado a más de 1 millon de personas a crecer profesionalmente. Estos artículos comparten concejos
+            para
+            la búsqueda de empleo, la productividad y el éxito laboral en diferentes áreas del conocimiento.</p>
+    </div>
+</div>
+
+<div class="article-container">
+    <!-- Listar artículos -->
+    {% for article in articles %}
+    <article class="article">
+        <!-- Imagen del artículo -->
+        <img src="{{ article.image.url }}" alt="" class="img">
+        <div class="card-body">
+            <!-- Identificador del artículo -->
+            <a href="{% url 'post' article.slug %}">
+                <h2 class="title">{{ article.title|truncatewords:13 }}</h2>
+            </a>
+            <p class="introduction">{{ article.introduction|truncatewords:25 }}</p>
+        </div>
+    </article>
+    {% endfor %}
+</div>
+{% endblock content %}
